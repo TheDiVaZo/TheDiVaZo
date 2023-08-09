@@ -2,12 +2,6 @@
 <div id="header" align="center">
   <img src="https://media.giphy.com/media/f7omQNmgiyjj5sffvZ/giphy.gif" width="130"></img>
 </div>
-<div id="badges" align="center">
-  <img alt="Static Badge" src="https://img.shields.io/badge/Вконтакте-0077FF?style=for-the-badge&logo=vk&link=https%3A%2F%2Fvk.com%2Fthedivazo">
-  <img alt="Static Badge" src="https://img.shields.io/badge/mail-0077FF?style=for-the-badge&logo=gmail&logoColor=white&link=https%3A%2F%2Fthedivazoyoutub%40gmail.com">
-  <img alt="Static Badge" src="https://img.shields.io/badge/telegram-0077FF?style=for-the-badge&logo=telegram&logoColor=white&link=https%3A%2F%2Ft.me%2Fthedivazo">
-  <img alt="Static Badge" src="https://img.shields.io/badge/github-0077FF?style=for-the-badge&logo=github&logoColor=white&link=https%3A%2F%2Fgithub.com%2Fthedivazo">
-</div>
 
 <h4>💨 About me</h4>
 I am a Java Developer from 🥘 Russia
