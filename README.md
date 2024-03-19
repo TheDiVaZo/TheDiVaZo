@@ -4,13 +4,7 @@
 </div>
 
 <h4>💨 About me</h4>
-I am a Java Developer from 🥘 Russia
-
-- I have been interested in programming since childhood
-- There is 1 year of 🏢 commercial experience and several years of non-commercial experience
-- I have several pet projects that have become quite successful.
-- I like to play sandbox and strategy games.
-- I love my country.
+I am a Java Developer
 
 ---
 
