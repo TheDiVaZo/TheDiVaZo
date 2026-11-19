@@ -1,0 +1,45 @@
+name: Profile activity
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "contributions/manual/*.json"
+      - ".github/workflows/contributions.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile-contributions
+  cancel-in-progress: false
+
+jobs:
+  activity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Check GitHub activity credentials
+        env:
+          ACTIVITY_TOKEN: ${{ secrets.GIC_GITHUB_TOKEN }}
+        run: |
+          if [ -z "$ACTIVITY_TOKEN" ]; then
+            echo "::error::Set GIC_GITHUB_TOKEN to a personal access token for the profile owner."
+            exit 1
+          fi
+      - name: Generate activity cards
+        uses: TheDiVaZo/git-info-combine@5327f8b072f8550b675cc56fa595bde609935cef
+        with:
+          github-token: ${{ secrets.GIC_GITHUB_TOKEN }}
+          gitlab-sources: ${{ secrets.GIC_GITLAB_SOURCES }}
+          manual-contributions-dir: contributions/manual
+          cards: heatmap
+          theme: auto
+          heatmap-mode: single
+          icon-color: 40c463
+          name: TheDiVaZo
+          output-dir: git-info-combine
+          commit-message: "chore: update profile activity cards"
