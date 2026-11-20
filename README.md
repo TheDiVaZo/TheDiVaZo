@@ -6,7 +6,3 @@
   <source media="(prefers-color-scheme: dark)" srcset="git-info-combine/layout-dark.svg">
   <img alt="Git activity, repository statistics and coding time" src="git-info-combine/layout-light.svg">
 </picture>
-
-Unavailable metrics are marked on the cards. Repository language shares describe project composition; WakaTime measures coding time.
-
-[How this graph is updated](CONTRIBUTIONS.md)
