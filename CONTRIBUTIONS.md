@@ -53,7 +53,7 @@ The workflow runs daily at 03:00 UTC, on reviewed manual JSON changes on `main`,
 In this repository's **Settings → Secrets and variables → Actions**, configure:
 
 - `GIC_GITHUB_TOKEN`: a personal access token belonging to the profile owner. Follow the fork README's permissions for the private/organisation activity you want included; the default workflow token is not a substitute for profile-wide collection.
-- `GIC_WAKATIME_TOKEN`: the personal WakaTime OAuth token used by the `wakatime-api-key` input. The compact card shows coding time by language for the last seven days; it does not add time to the Git heatmap. Without this secret, the Action skips the WakaTime card.
+- `GIC_WAKATIME_TOKEN`: the personal WakaTime OAuth token used by the `wakatime-api-key` input. The card shows coding time for up to eight languages over the last thirty days; it does not add time to the Git heatmap. Without this secret, the Action skips the WakaTime card.
 - Optional `GIC_SOURCES`: a JSON array of automatic servers, each with `id`, `url`, `token`, `label`, `color`, optional `provider` (`gitlab` or `forgejo`) and provider-specific `options`. Provider detection runs when `provider` is omitted. Use a GitLab personal token with `read_api` and `read_user`, or a Forgejo personal token with `read:user`.
 - Legacy `GIC_GITLAB_SOURCES` remains a fallback only while `GIC_SOURCES` is empty. Once the shared secret is set, it must contain **all** desired GitLab and Forgejo servers; the legacy list is no longer used. These API sources are separate from EXBO. Do not add credentials for the local corporate repositories here.
 
@@ -74,4 +74,8 @@ An unavailable automatic source or invalid manual JSON fails the run without rep
 
 The workflow pins the fork to an exact commit. For initial publication, push the fork first, configure the profile secret, then push this profile and run the workflow. When updating the fork later, deliberately update the pinned SHA.
 
-The README uses the light and dark variants of `heatmap.svg` and `wakatime.svg`. The heatmap uses `heatmap-mode: hosts`: each day's square is split into colored segments proportional to source activity. GitHub is green; other sources use their configured colors. Set `heatmap-mode: single` for a green summed grid. SVG cell titles include date, totals and source-specific units; open the SVG directly to inspect them, since per-cell hover is not guaranteed when GitHub embeds an SVG as an image.
+The README displays five separate cards, each with light and dark variants: `heatmap`, `stats`, `languages`, `hosts` and `wakatime`. No combined layout is enabled. The heatmap covers the last year; Git statistics use the history available to each source, while WakaTime covers the last thirty days.
+
+The languages card shows up to eight repository languages, weighted by repository composition. WakaTime shows actual coding time by language, also up to eight languages. These percentages measure different things. Forgejo supplies calendar activity and EXBO supplies local commit counts; unsupported statistics remain marked as unavailable, and mixed totals identify incomplete coverage.
+
+The heatmap uses `heatmap-mode: hosts`: each day's square is split into colored segments proportional to source activity. GitHub is green; other sources use their configured colors. Set `heatmap-mode: single` for a green summed grid. SVG cell titles include date, totals and source-specific units; open the SVG directly to inspect them, since per-cell hover is not guaranteed when GitHub embeds an SVG as an image.
