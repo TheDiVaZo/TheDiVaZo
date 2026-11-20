@@ -31,7 +31,7 @@ jobs:
             exit 1
           fi
       - name: Generate activity cards
-        uses: TheDiVaZo/git-info-combine@0a505a038a732c731f369d575844e8c5cad67547
+        uses: TheDiVaZo/git-info-combine@cbaa2a673460c842aaf61129230b701915faf0c3
         with:
           github-token: ${{ secrets.GIC_GITHUB_TOKEN }}
           sources: ${{ secrets.GIC_SOURCES }}
@@ -39,6 +39,12 @@ jobs:
           manual-contributions-dir: contributions/manual
           cards: heatmap,stats,languages,hosts,wakatime
           equal-heights: false
+          layout: |
+            heatmap
+            stats languages
+            wakatime hosts
+          layout-width: 800
+          layout-gap: 10
           theme: auto
           heatmap-mode: hosts
           github-color: "40c463"

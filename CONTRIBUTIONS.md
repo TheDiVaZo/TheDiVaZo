@@ -70,11 +70,11 @@ Use installation base URLs, not API or repository URLs. To migrate an existing G
 
 Forgejo reports calendar events in UTC; it does not report exact authored-commit totals through this integration. Its first fetch is limited to the server calendar window (371 rolling days, excluding the oldest partial day). Later runs preserve older snapshots in the cache and replace the recent window, so unchanged data is not counted again. Do not delete the cache if that archived history matters. Labels are public; addresses and tokens belong only in the secret.
 
-An unavailable automatic source or invalid manual JSON fails the run without replacing previous output. A missing manual directory is harmless when automatic sources are configured. No token is needed for a local manual-only render.
+An unavailable automatic source or invalid manual JSON fails the run without replacing previous output. If WakaTime is calculating the requested period, the Action checks up to four times with 10, 20 and 30 second waits and a 90 second overall deadline. If it is still not ready, the entire run fails before replacing any card or cache; the next run tries again. A real zero-activity result is different from an unfinished calculation. A missing manual directory is harmless when automatic sources are configured. No token is needed for a local manual-only render.
 
 The workflow pins the fork to an exact commit. For initial publication, push the fork first, configure the profile secret, then push this profile and run the workflow. When updating the fork later, deliberately update the pinned SHA.
 
-The README displays five separate cards, each with light and dark variants: `heatmap`, `stats`, `languages`, `hosts` and `wakatime`. No combined layout is enabled. The heatmap covers the last year; Git statistics use the history available to each source, while WakaTime covers the last thirty days.
+The workflow generates one combined block in `layout-light.svg` and `layout-dark.svg`, 800 pixels wide with 10 pixel gaps. The rows are heatmap; stats and languages; WakaTime and hosts. The individual card files are also retained. The heatmap covers the last year; Git statistics use the history available to each source, while WakaTime covers the last thirty days. When first enabling this layout, switch the README image references after a successful workflow creates both layout files.
 
 The languages card shows up to eight repository languages, weighted by repository composition. WakaTime shows actual coding time by language, also up to eight languages. These percentages measure different things. Forgejo supplies calendar activity and EXBO supplies local commit counts; unsupported statistics remain marked as unavailable, and mixed totals identify incomplete coverage.
 
