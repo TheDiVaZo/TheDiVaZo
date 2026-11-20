@@ -1,6 +1,6 @@
 # Updating profile activity
 
-The scheduled workflow combines GitHub activity, optional GitLab accounts and the reviewed JSON files in `contributions/manual`. Corporate repositories are read only by the local exporter; GitHub Actions never connects to them. The initial SVG files show only the locally exported EXBO source. Once the workflow credentials are configured, its next successful run adds the automatic sources.
+The scheduled workflow combines GitHub activity, optional GitLab/Forgejo servers and the reviewed JSON files in `contributions/manual`. Corporate repositories are read only by the local exporter; GitHub Actions never connects to them. The initial SVG files show only the locally exported EXBO source. Once the workflow credentials are configured, its next successful run adds the automatic sources.
 
 Before publishing corporate statistics, obtain the appropriate permission. Review the daily counts and source labels: aggregate activity can itself be sensitive. JSON and SVG files intentionally contain public source labels, dates and counts, without commit messages, hashes, author emails, repository paths or internal URLs.
 
@@ -53,7 +53,21 @@ The workflow runs daily at 03:00 UTC, on reviewed manual JSON changes on `main`,
 In this repository's **Settings → Secrets and variables → Actions**, configure:
 
 - `GIC_GITHUB_TOKEN`: a personal access token belonging to the profile owner. Follow the fork README's permissions for the private/organisation activity you want included; the default workflow token is not a substitute for profile-wide collection.
-- Optional `GIC_GITLAB_SOURCES`: the fork's existing JSON array of GitLab accounts, each with `id`, `url`, `token`, `label`, `color` and optional `mirrors`. These are automatic API sources, separate from the local EXBO export. Do not add corporate local-repository credentials here.
+- Optional `GIC_SOURCES`: a JSON array of automatic servers, each with `id`, `url`, `token`, `label`, `color`, optional `provider` (`gitlab` or `forgejo`) and provider-specific `options`. Provider detection runs when `provider` is omitted. Use a GitLab personal token with `read_api` and `read_user`, or a Forgejo personal token with `read:user`.
+- Legacy `GIC_GITLAB_SOURCES` remains a fallback only while `GIC_SOURCES` is empty. Once the shared secret is set, it must contain **all** desired GitLab and Forgejo servers; the legacy list is no longer used. These API sources are separate from EXBO. Do not add credentials for the local corporate repositories here.
+
+For example, the value of `GIC_SOURCES` can be:
+
+```json
+[
+  { "id": "work", "url": "https://gitlab.example.com", "token": "<TOKEN_1>", "label": "Work", "color": "#fc6d26" },
+  { "id": "personal", "url": "https://forgejo.example.org", "token": "<TOKEN_2>", "label": "Personal", "color": "#fb923c" }
+]
+```
+
+Use installation base URLs, not API or repository URLs. To migrate an existing GitLab list, retain its fields, move any `mirrors` array into `options.mirrors`, and add other servers to the same list. A Forgejo server previously put in the legacy GitLab secret must be moved into this shared secret. Add `"provider": "forgejo"` or `"provider": "gitlab"` to bypass detection when necessary. The provider's token must belong to the account whose activity you want shown. Save the secret, then run **Actions > Profile activity > Run workflow**.
+
+Forgejo reports calendar events in UTC; it does not report exact authored-commit totals through this integration. Its first fetch is limited to the server calendar window (371 rolling days, excluding the oldest partial day). Later runs preserve older snapshots in the cache and replace the recent window, so unchanged data is not counted again. Do not delete the cache if that archived history matters. Labels are public; addresses and tokens belong only in the secret.
 
 An unavailable automatic source or invalid manual JSON fails the run without replacing previous output. A missing manual directory is harmless when automatic sources are configured. No token is needed for a local manual-only render.
 

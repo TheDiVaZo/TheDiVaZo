@@ -31,10 +31,11 @@ jobs:
             exit 1
           fi
       - name: Generate activity cards
-        uses: TheDiVaZo/git-info-combine@5327f8b072f8550b675cc56fa595bde609935cef
+        uses: TheDiVaZo/git-info-combine@0a505a038a732c731f369d575844e8c5cad67547
         with:
           github-token: ${{ secrets.GIC_GITHUB_TOKEN }}
-          gitlab-sources: ${{ secrets.GIC_GITLAB_SOURCES }}
+          sources: ${{ secrets.GIC_SOURCES }}
+          gitlab-sources: ${{ secrets.GIC_SOURCES == '' && secrets.GIC_GITLAB_SOURCES || '' }}
           manual-contributions-dir: contributions/manual
           cards: heatmap
           theme: auto
