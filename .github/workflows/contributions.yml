@@ -37,10 +37,15 @@ jobs:
           sources: ${{ secrets.GIC_SOURCES }}
           gitlab-sources: ${{ secrets.GIC_SOURCES == '' && secrets.GIC_GITLAB_SOURCES || '' }}
           manual-contributions-dir: contributions/manual
-          cards: heatmap
+          cards: heatmap,wakatime
           theme: auto
-          heatmap-mode: single
+          heatmap-mode: hosts
+          github-color: "40c463"
           icon-color: 40c463
+          wakatime-api-key: ${{ secrets.GIC_WAKATIME_TOKEN }}
+          wakatime-url: https://api.wakatime.com/api/v1
+          wakatime-range: last_7_days
+          wakatime-layout: compact
           name: TheDiVaZo
           output-dir: git-info-combine
           commit-message: "chore: update profile activity cards"
